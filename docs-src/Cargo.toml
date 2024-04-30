@@ -1,0 +1,17 @@
+[package]
+name = "ift4055-docs"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+leptos = { version = "0.6.11", features = ["csr", "serde"] }
+leptos_meta = "0.6.11"
+
+[profile.release]
+opt-level = "z"
+codegen-units = 1
+lto = "fat"
+panic = "abort"
+strip = "symbols"
