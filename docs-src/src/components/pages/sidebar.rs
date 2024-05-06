@@ -3,7 +3,7 @@ use leptos::*;
 
 #[component]
 pub fn Sidebar() -> impl IntoView {
-    let title = "<h1 class=\"text-5xl font-semibold text-lighttext-950 dark:text-darktext-50\">IFT4055 - Honor's project</h1>";
+    let title = "<h1 class=\"text-5xl font-semibold text-lighttext-950 dark:text-darktext-50\">IFT4055 - Honors Project</h1>";
     let subtitle =
         "<h2 class=\"pt-2 text-xl text-lighttext-950 dark:text-darktext-50\">Etienne Collin</h2>";
     let contact = "<div><a class=\"text-lighttext-900 dark:text-darktext-100 no-underline hover:underline\" href=\"mailto:collin.etienne.contact@gmail.com\">collin.etienne.contact@gmail.com</a><br/><a class=\"text-lighttext-900 dark:text-darktext-100 no-underline hover:underline\" href=\"mailto:etienne.collin@umontreal.ca\">etienne.collin@umontreal.ca</a></div>";
