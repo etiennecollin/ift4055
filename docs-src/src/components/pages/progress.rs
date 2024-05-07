@@ -1,10 +1,13 @@
-use crate::utils::{event::Event, section::Section};
+use crate::{
+    locale::Locale,
+    utils::{event::Event, section::Section},
+};
 use leptos::*;
 
 #[component]
-pub fn Progress() -> impl IntoView {
+pub fn Progress(#[prop(into)] locale: ReadSignal<Locale>) -> impl IntoView {
     view! {
-        <Section title="Progress">
+        <Section title=locale.get().get_progress_title()>
             <Event
                 title="Title"
                 subtitle="Subtitle"

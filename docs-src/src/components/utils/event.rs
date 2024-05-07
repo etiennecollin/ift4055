@@ -7,8 +7,8 @@ pub fn Event(
     #[prop(into)] title: String,
     #[prop(into)] subtitle: String,
     #[prop(into)] date: String,
-    #[prop(optional)] description: Option<String>,
-    #[prop(optional)] list: Option<Vec<String>>,
+    #[prop(optional, into)] description: Option<String>,
+    #[prop(optional, into)] list: Option<Vec<String>>,
 ) -> impl IntoView {
     let (description_signal, _) = create_signal(description);
     let (list_signal, _) = create_signal(list);
