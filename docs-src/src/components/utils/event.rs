@@ -1,14 +1,14 @@
 use leptos::*;
 
-use crate::utils::{empty::Empty, subsection::Subsection};
+use crate::utils::subsection::Subsection;
 
 #[component]
 pub fn Event(
     #[prop(into)] title: String,
     #[prop(into)] subtitle: String,
     #[prop(into)] date: String,
-    #[prop(optional)] description: Option<String>,
-    #[prop(optional)] list: Option<Vec<String>>,
+    #[prop(optional, into)] description: Option<String>,
+    #[prop(optional, into)] list: Option<Vec<String>>,
 ) -> impl IntoView {
     let (description_signal, _) = create_signal(description);
     let (list_signal, _) = create_signal(list);
@@ -22,10 +22,10 @@ pub fn Event(
                 </div>
                 <h4 class="text-lighttext-800 dark:text-darktext-200">{subtitle}</h4>
             </div>
-            <Show when=move || { description_signal.get().is_some() } fallback=|| view! { <Empty/> }>
+            <Show when=move || { description_signal.get().is_some() }>
                 <p class="text-lighttext-600 dark:text-darktext-400">{description_signal.get().unwrap()}</p>
             </Show>
-            <Show when=move || { list_signal.get().is_some() } fallback=|| view! { <Empty/> }>
+            <Show when=move || { list_signal.get().is_some() }>
                 <ul class="list-disc list-outside pl-8 lg:pl-6">
                     {list_signal
                         .get()
