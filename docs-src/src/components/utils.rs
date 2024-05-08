@@ -1,4 +1,3 @@
-pub mod empty;
 pub mod event;
 pub mod section;
 pub mod social;

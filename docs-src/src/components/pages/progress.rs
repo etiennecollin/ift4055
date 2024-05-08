@@ -5,9 +5,17 @@ use crate::{
 use leptos::*;
 
 #[component]
-pub fn Progress(#[prop(into)] locale: ReadSignal<Locale>) -> impl IntoView {
+pub fn Progress() -> impl IntoView {
+    let locale =
+        use_context::<ReadSignal<Locale>>().expect("expecting locale signal to be provided");
+
+    let (title, title_set) = create_signal(String::new());
+    create_effect(move |_| {
+        title_set.set(locale.get().progress_title.to_owned());
+    });
+
     view! {
-        <Section title=locale.get().get_progress_title()>
+        <Section title=title>
             <Event
                 title="Title"
                 subtitle="Subtitle"
