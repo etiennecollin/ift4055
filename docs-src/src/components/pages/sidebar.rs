@@ -23,7 +23,7 @@ pub fn Sidebar() -> impl IntoView {
             "<p class=\"pt-2 grow text-lighttext-900 dark:text-darktext-100\">{}</p>",
             locale.get().sidebar_description
         );
-        let image = "<img class=\"rounded-full h-fit w-1/4 lg:w-auto m-4 mb-2 lg:m-4 hover:animate-spin\" src=\"assets/images/profile.jpg\" alt=\"Profile picture\"/>";
+        let image = "<img class=\"rounded-full w-1/4 lg:w-auto m-4 mb-2 lg:m-4 hover:animate-spin\" src=\"assets/images/profile.jpg\" alt=\"Profile picture\"/>";
 
         small_set.set(format!(
             "{}<div class=\"flex flex-row\"><div>{}{}</div>{}</div>",
