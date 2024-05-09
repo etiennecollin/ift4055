@@ -17,7 +17,7 @@ pub fn Event(
         <Subsection>
             <div>
                 <div class="flex justify-between">
-                    <h3 class="text-xl text-lighttext-800 dark:text-darktext-200">{title}</h3>
+                    <h3 class="text-lighttext-800 dark:text-darktext-200">{title}</h3>
                     <p class="text-lighttext-700 dark:text-darktext-300">{date}</p>
                 </div>
                 <h4 class="text-lighttext-800 dark:text-darktext-200">{subtitle}</h4>
@@ -26,7 +26,7 @@ pub fn Event(
                 <p class="text-lighttext-600 dark:text-darktext-400">{description_signal.get().unwrap()}</p>
             </Show>
             <Show when=move || { list_signal.get().is_some() }>
-                <ul class="list-disc list-outside pl-8 lg:pl-6">
+                <ul>
                     {list_signal
                         .get()
                         .unwrap()

@@ -17,3 +17,51 @@
     scrollbar-width: none; /* Firefox */
   }
 }
+
+@layer base {
+  main {
+    @apply text-3xl;
+  }
+  main h1 {
+    @apply text-6xl;
+  }
+  main h2 {
+    @apply text-4xl;
+  }
+  main h3 {
+    @apply text-3xl pt-4;
+  }
+  main h4 {
+    @apply text-3xl;
+  }
+  main i {
+    @apply text-5xl;
+  }
+  ul {
+    @apply list-disc list-outside pl-8 lg:pl-6 pt-4 pb-2 lg:pt-2 lg:pb-0;
+  }
+  ol {
+    @apply list-decimal list-outside pl-8 lg:pl-6 pt-4 pb-2 lg:py-2 lg:pb-0;
+  }
+
+  @screen lg {
+    main {
+      @apply text-base;
+    }
+    main h1 {
+      @apply text-5xl;
+    }
+    main h2 {
+      @apply text-2xl;
+    }
+    main h3 {
+      @apply text-xl;
+    }
+    main h4 {
+      @apply text-lg;
+    }
+    main i {
+      @apply text-4xl;
+    }
+  }
+}

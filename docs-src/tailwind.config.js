@@ -9,9 +9,6 @@ module.exports = {
   },
   theme: {
     extend: {},
-    screens: {
-      lg: "1175px",
-    },
     colors: {
       lightbg: colors.stone,
       lighttext: colors.stone,

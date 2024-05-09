@@ -12,12 +12,11 @@ pub fn Sidebar() -> impl IntoView {
 
     create_effect(move |_| {
         let title = format!(
-            "<h1 class=\"text-5xl font-semibold text-lighttext-950 dark:text-darktext-50\">{}</h1>",
+            "<h1 class=\"font-semibold text-lighttext-950 dark:text-darktext-50\">{}</h1>",
             locale.get().sidebar_title
         );
-        let subtitle =
-        "<h2 class=\"pt-2 text-xl text-lighttext-950 dark:text-darktext-50\">Etienne Collin</h2>";
-        let contact = "<div><a class=\"text-lighttext-900 dark:text-darktext-100 no-underline hover:underline\" href=\"mailto:collin.etienne.contact@gmail.com\">collin.etienne.contact@gmail.com</a><br/><a class=\"text-lighttext-900 dark:text-darktext-100 no-underline hover:underline\" href=\"mailto:etienne.collin@umontreal.ca\">etienne.collin@umontreal.ca</a></div>";
+        let subtitle = "<h2 class=\"pt-2 text-lighttext-950 dark:text-darktext-50\">Etienne Collin</h2>";
+        // let contact = "<div><a class=\"text-lighttext-900 dark:text-darktext-100 no-underline hover:underline\" href=\"mailto:collin.etienne.contact@gmail.com\">collin.etienne.contact@gmail.com</a><br/><a class=\"text-lighttext-900 dark:text-darktext-100 no-underline hover:underline\" href=\"mailto:etienne.collin@umontreal.ca\">etienne.collin@umontreal.ca</a></div>";
         let description = format!(
             "<p class=\"pt-2 grow text-lighttext-900 dark:text-darktext-100\">{}</p>",
             locale.get().sidebar_description
@@ -25,12 +24,12 @@ pub fn Sidebar() -> impl IntoView {
         let image = "<img class=\"rounded-full w-1/3 lg:w-auto m-4 mb-2 lg:m-4 hover:animate-spin\" src=\"assets/images/profile.jpg\" alt=\"Profile picture\"/>";
 
         small_set.set(format!(
-            "<div>{}{}{}{}</div>{}",
-            title, subtitle, contact, description, image
+            "<div>{}{}{}</div>{}",
+            title, subtitle,description, image
         ));
         large_set.set(format!(
-            "{}{}{}{}{}",
-            title, image, subtitle, contact, description
+            "{}{}{}{}",
+            title, image, subtitle, description
         ));
     });
 
