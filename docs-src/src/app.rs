@@ -25,7 +25,7 @@ pub fn App() -> impl IntoView {
     });
 
     view! {
-        <div class="grid gap-5 grid-cols-1 lg:grid-cols-5 min-h-screen">
+        <div class="grid lg:gap-5 grid-cols-1 lg:grid-cols-5 min-h-screen">
             <Sidebar/>
             <Routes>
                 <Route path="/" view=AppContainer>

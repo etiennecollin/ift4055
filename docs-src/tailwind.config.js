@@ -8,7 +8,12 @@ module.exports = {
     files: ["*.html", "./src/**/*.rs"],
   },
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        sm: "0px",
+        md: "600px",
+      },
+    },
     colors: {
       lightbg: colors.stone,
       lighttext: colors.stone,
