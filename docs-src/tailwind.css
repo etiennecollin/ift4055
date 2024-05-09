@@ -20,40 +20,39 @@
 
 @layer base {
   ul {
-    @apply list-disc pl-8 lg:pl-6;
+    @apply list-disc list-outside pl-8 lg:pl-6;
   }
   ol {
-    @apply list-decimal pl-10 lg:pl-7;
+    @apply list-decimal list-outside pl-8 lg:pl-6;
   }
-  ul,
-  ol {
-    @apply list-outside pb-2 lg:pb-4;
+  ol:not(:first-child),
+  ul:not(:first-child) {
+    @apply pt-1;
   }
-  p + ol,
-  p + ul {
-    @apply mt-2 lg:mt-1;
-  }
-  ol:last-child,
-  ul:last-child {
-    @apply mb-0 pb-0;
+  i {
+    @apply text-4xl;
   }
   main {
     @apply text-base;
   }
-  main h1 {
+  h1 {
     @apply text-4xl;
   }
-  main h2 {
+  h2 {
     @apply text-2xl;
   }
-  main h3 {
+  h3 {
     @apply text-xl;
   }
-  main h4 {
+  h4 {
     @apply text-lg;
   }
-  main i {
-    @apply text-4xl;
+  h1:not(:first-child),
+  h2:not(:first-child),
+  h3:not(:first-child),
+  h4:not(:first-child) {
+    @apply pt-2;
   }
+
   /* } */
 }
