@@ -29,6 +29,9 @@
   ul:not(:first-child) {
     @apply pt-1;
   }
+  a:not(#sidebar a) {
+    @apply text-lightaccent-700 hover:text-lightaccent-600 dark:text-darkaccent-300 hover:dark:text-darkaccent-400 underline;
+  }
   i {
     @apply text-4xl;
   }
@@ -53,6 +56,4 @@
   h4:not(:first-child) {
     @apply pt-2;
   }
-
-  /* } */
 }
