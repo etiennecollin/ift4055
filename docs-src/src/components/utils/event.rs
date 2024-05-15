@@ -4,12 +4,13 @@ use crate::utils::subsection::Subsection;
 
 #[component]
 pub fn Event(
-    #[prop(into)] title: String,
-    #[prop(into)] subtitle: String,
+    #[prop(into)] title: ReadSignal<String>,
     #[prop(into)] date: String,
-    #[prop(optional, into)] description: Option<String>,
+    #[prop(optional, into)] subtitle: Option<ReadSignal<String>>,
+    #[prop(optional, into)] description: Option<ReadSignal<String>>,
     #[prop(optional, into)] list: Option<Vec<String>>,
 ) -> impl IntoView {
+    let (subtitle_signal, _) = create_signal(subtitle);
     let (description_signal, _) = create_signal(description);
     let (list_signal, _) = create_signal(list);
 
@@ -20,10 +21,12 @@ pub fn Event(
                     <h3 class="text-lighttext-800 dark:text-darktext-200">{title}</h3>
                     <p class="text-lighttext-700 dark:text-darktext-300">{date}</p>
                 </div>
-                <h4 class="text-lighttext-800 dark:text-darktext-200">{subtitle}</h4>
+                <Show when=move || { subtitle_signal.get().is_some() }>
+                    <h4 class="text-lighttext-800 dark:text-darktext-200">{subtitle_signal.get().unwrap()}</h4>
+                </Show>
             </div>
             <Show when=move || { description_signal.get().is_some() }>
-                <p class="text-lighttext-600 dark:text-darktext-400">{description_signal.get().unwrap()}</p>
+                <p class="text-lighttext-600 dark:text-darktext-400" inner_html=description_signal.get().unwrap()></p>
             </Show>
             <Show when=move || { list_signal.get().is_some() }>
                 <ul>
@@ -31,7 +34,9 @@ pub fn Event(
                         .get()
                         .unwrap()
                         .into_iter()
-                        .map(|item| view! { <li class="text-lighttext-600 dark:text-darktext-400">{item}</li> })
+                        .map(|item| {
+                            view! { <li class="text-lighttext-600 dark:text-darktext-400" inner_html=item></li> }
+                        })
                         .collect::<Vec<_>>()}
                 </ul>
             </Show>

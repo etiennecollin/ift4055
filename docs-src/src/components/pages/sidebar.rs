@@ -37,7 +37,7 @@ pub fn Sidebar() -> impl IntoView {
     });
 
     view! {
-        <section class="my-8 lg:col-span-1 flex flex-col grow">
+        <section id="sidebar" class="my-8 lg:col-span-1 flex flex-col grow">
             <div class="flex flex-col md:flex-row justify-between md:hidden" inner_html=move || small.get()></div>
             <div class="hidden md:flex flex-row justify-between lg:hidden" inner_html=move || medium.get()></div>
             <div class="hidden justify-between items-center lg:block" inner_html=move || large.get()></div>
