@@ -12,11 +12,15 @@ pub fn Progress() -> impl IntoView {
     let (title, title_set) = create_signal(String::new());
     let (progress_1_title, progress_1_title_set) = create_signal(String::new());
     let (progress_1_description, progress_1_description_set) = create_signal(String::new());
+    let (progress_2_title, progress_2_title_set) = create_signal(String::new());
+    let (progress_2_description, progress_2_description_set) = create_signal(String::new());
 
     create_effect(move |_| {
         title_set.set(locale.get().progress_title.to_owned());
         progress_1_title_set.set(locale.get().progress_1_title.to_owned());
         progress_1_description_set.set(locale.get().progress_1_description.to_owned());
+        progress_2_title_set.set(locale.get().progress_2_title.to_owned());
+        progress_2_description_set.set(locale.get().progress_2_description.to_owned());
     });
 
     view! {
@@ -28,7 +32,7 @@ pub fn Progress() -> impl IntoView {
                 list=vec![
                     "<a href=\"https://web.stanford.edu/class/psych209/Readings/SuttonBartoIPRLBook2ndEd.pdf\">Stanford RL textbook</a>"
                         .to_owned(),
-                    "<a href=\"https://pytorch.org/tutorials/intermediate/reinforcement_ppo.html\"> PyTorch TorchRL PPO tutorial</a>"
+                    "<a href=\"https://pytorch.org/tutorials/intermediate/reinforcement_ppo.html\">PyTorch TorchRL PPO tutorial</a>"
                         .to_owned(),
                     "<a href=\"https://arxiv.org/abs/2402.04355\">PQMass: Probabilistic Assessment of the Quality of Generative Models using Probability Mass Estimation</a>"
                         .to_owned(),
@@ -39,6 +43,23 @@ pub fn Progress() -> impl IntoView {
                 ]
             />
 
+            <Event
+                title=progress_2_title
+                date="2024/05/14 - 2024/05/28"
+                description=progress_2_description
+                list=vec![
+                    "<a href=\"https://github.com/pytorch/examples/blob/37a1866d0e0118875d52071756f76b9b3e46c565/reinforcement_learning/actor_critic.py\">PyTorch examples - actor-critic</a>"
+                        .to_owned(),
+                    "<a href=\"https://github.com/yc930401/Actor-Critic-pytorch/tree/master\">DQN to play Cartpole game with pytorch</a>"
+                        .to_owned(),
+                    "<a href=\"https://youtube.com/playlist?list=PLvSH07QabjqZRKKuq92HN7zXqUIDk6Nyx&si=62VRmB9NDBT-AKB5\">MILA GFlowNets Workshop 2023</a>"
+                        .to_owned(),
+                    "<a href=\"https://milayb.notion.site/The-GFlowNet-Tutorial-95434ef0e2d94c24aab90e69b30be9b3\">The GFlowNet Tutorial</a>"
+                        .to_owned(),
+                    "<a href=\"https://github.com/GFNOrg/torchgfn/\">torchgfn Python package repository</a>".to_owned(),
+                ]
+            />
+
         </Section>
-                }
+    }
 }
