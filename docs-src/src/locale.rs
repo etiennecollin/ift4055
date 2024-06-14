@@ -11,6 +11,8 @@ pub struct Locale<'a> {
     pub progress_1_description: &'a str,
     pub progress_2_title: &'a str,
     pub progress_2_description: &'a str,
+    pub progress_3_title: &'a str,
+    pub progress_3_description: &'a str,
     pub progress_title: &'a str,
     pub lang_button_text: &'a str,
     pub sidebar_title: &'a str,
@@ -38,6 +40,16 @@ pub const LOCALE_EN: Locale<'static> = Locale {
 
         <br/>
         After discussing with my supervisor, it was decided that classic RL (DQN, actor-critic, etc) was not the best approach for my problem. Indeed, these methods have a harder time learning the various modes that can be present in the function space. GFlowNets offer an architecture which explores that function space better. Research was done to understand how GFlowNets work and how they can be used to sample points in a function space. A simple implementation of GFlowNets, sampling basic functions, was created following tutorials from the <a href=\"https://github.com/GFNOrg/torchgfn/\">torchgfn python package</a>. GFlowNets seem promising!
+    ",
+    progress_3_title: "GFlowNets, Bayesian Optimisation, Gaussian Processes and Acquisition Function",
+    progress_3_description: "
+        After working on the GFlowNet implementation, it is clear that this architecture is promising for the problem at hand. That being said, the GFlowNet used had trouble finding all of the modes in a sparse distribution. This is probably caused by the usage of an \"on-policy\" model, meaning that the model fould sample its next points from the learned policy. This should not be the case in the final project, because the acquisition model will be used to propose the points.
+
+        <br/>
+        Up until now, it is therefore clear that a GFlowNet will be used as a surrogate model to emulate/approximate the complex distribution/function. Moreover after discussing with my supervisors, I will be exploring how gaussian processes and acquisition functions (AF) are used in the context of bayesian optimisation (BO). At first glance, it seems that this project is closely related to BO. In fact, the main difference is that BO only cares about accurately finding the maximal/minimal value of a function (because it is an optimisation problem), whereas this project aims to accurately model the entire function and sample from it.
+
+        <br/>
+        The next step is to research on papers discussing the use of neural networks as AFs in BO in order to learn how they work and how to adapt them to my problem that is not an optimisation problem.
     ",
     progress_title: "Progress",
     lang_button_text: "Toggle Language",
@@ -138,6 +150,16 @@ pub const LOCALE_FR: Locale<'static> = Locale {
 
         <br/>
         Après avoir discuté avec mon superviseur, il a été décidé que l'apprentissage par renforcement classique (DQN, acteur-critique, etc.) n'était pas la meilleure approche pour mon problème. En effet, ces méthodes ont plus de difficulté à apprendre les différentes modalités pouvant être présentes dans l'espace fonctionnel. Les GFlowNets offrent une architecture qui explore mieux cet espace fonctionnel. Des recherches ont été effectuées pour comprendre comment fonctionnent les GFlowNets et comment ils peuvent être utilisés pour échantillonner des points dans un espace fonctionnel. Une implémentation simple de GFlowNets, échantillonnant des fonctions de base, a été créée en suivant les tutoriels du <a href=\"https://github.com/GFNOrg/torchgfn/\">package python torchgfn</a>. Les GFlowNets semblent prometteurs!
+    ",
+    progress_3_title: "GFlowNets, optimisation bayésienne, processus gaussiens et fonctions d'acquisitions",
+    progress_3_description: "
+        Après avoir travaillé sur l'implémentation de GFlowNet, il est clair que cette architecture est prometteuse pour le problème en question. Cela étant dit, le GFlowNet utilisé a eu des difficultés à trouver tous les modes dans une distribution éparse. Cela est probablement dû à l'utilisation d'un modèle \"on-policy\", ce qui signifie que le modèle échantillonnait ses prochains points à partir de la politique apprise. Cela ne devrait pas être le cas dans le projet final, car le modèle d'acquisition sera utilisé pour proposer les points.
+
+        <br/>
+        Jusqu'à présent, il est donc clair qu'un GFlowNet sera utilisé comme modèle de substitution pour émuler/approximer la distribution/fonction complexe. De plus, après avoir discuté avec mes superviseurs, j'explorerai comment les processus gaussiens et les fonctions d'acquisition (FA) sont utilisés dans le contexte de l'optimisation bayésienne (OB). À première vue, il semble que ce projet soit étroitement lié à l'OB. En fait, la principale différence est que l'OB se préoccupe uniquement de trouver avec précision la valeur maximale/minimale d'une fonction (car c'est un problème d'optimisation), alors que ce projet vise à modéliser avec précision toute la fonction et à en échantillonner.
+
+        <br/>
+        La prochaine étape consiste à rechercher des articles discutant de l'utilisation des réseaux neuronaux comme FAs dans l'OB afin d'apprendre comment ils fonctionnent et comment les adapter à mon problème qui n'est pas un problème d'optimisation.
     ",
     progress_title: "Progrès",
     lang_button_text: "Changer de Langue",

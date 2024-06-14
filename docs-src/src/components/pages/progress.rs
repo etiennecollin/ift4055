@@ -14,6 +14,8 @@ pub fn Progress() -> impl IntoView {
     let (progress_1_description, progress_1_description_set) = create_signal(String::new());
     let (progress_2_title, progress_2_title_set) = create_signal(String::new());
     let (progress_2_description, progress_2_description_set) = create_signal(String::new());
+    let (progress_3_title, progress_3_title_set) = create_signal(String::new());
+    let (progress_3_description, progress_3_description_set) = create_signal(String::new());
 
     create_effect(move |_| {
         title_set.set(locale.get().progress_title.to_owned());
@@ -21,6 +23,8 @@ pub fn Progress() -> impl IntoView {
         progress_1_description_set.set(locale.get().progress_1_description.to_owned());
         progress_2_title_set.set(locale.get().progress_2_title.to_owned());
         progress_2_description_set.set(locale.get().progress_2_description.to_owned());
+        progress_3_title_set.set(locale.get().progress_3_title.to_owned());
+        progress_3_description_set.set(locale.get().progress_3_description.to_owned());
     });
 
     view! {
@@ -60,6 +64,23 @@ pub fn Progress() -> impl IntoView {
                 ]
             />
 
+            <Event
+                title=progress_3_title
+                date="2024/05/28 - 2024/06/11"
+                description=progress_3_description
+                list=vec![
+                    "<a href=\"https://www.youtube.com/watch?v=ttE0F7fghfk\">Hyperparameter Optimization - The Math of Intelligence #7</a>"
+                        .to_owned(),
+                    "<a href=\"https://www.youtube.com/watch?v=UBDgSHPxVME&t=620s\">Gaussian Processes</a>"
+                        .to_owned(),
+                    "<a href=\"https://www.youtube.com/watch?v=M-NTkxfd7-8&t=4s\">Bayesian Optimization (Bayes Opt): Easy explanation of popular hyperparameter tuning method</a>"
+                        .to_owned(),
+                    "<a href=\"https://www.youtube.com/watch?v=5Cqi-RAwAu8\">I get confused trying to learn Gaussian Processes | Learn with me!</a>"
+                        .to_owned(),
+                    "<a href=\"https://www.youtube.com/watch?v=iDzaoEwd0N0\">Easy introduction to gaussian process regression (uncertainty models)</a>"
+                        .to_owned(),
+                ]
+            />
         </Section>
     }
 }
