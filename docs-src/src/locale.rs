@@ -15,6 +15,8 @@ pub struct Locale<'a> {
     pub progress_3_description: &'a str,
     pub progress_4_title: &'a str,
     pub progress_4_description: &'a str,
+    pub progress_5_title: &'a str,
+    pub progress_5_description: &'a str,
     pub progress_title: &'a str,
     pub lang_button_text: &'a str,
     pub sidebar_title: &'a str,
@@ -63,6 +65,9 @@ pub const LOCALE_EN: Locale<'static> = Locale {
         <br/>
         I also met a PhD student with my supervisor at MILA who used to work on BO. This meeting was helpful and it was concluded that I should try to find a way to introduce some notion of uncertainty/variance in the surrogate network. That is, instead of outputting a point y for a given x, the surrogate network should output the mean and variance of y for a given x. This will be used to inform the acquisition model where it should sample next.
     ",
+    progress_5_title: "todo",
+    progress_5_description: "
+        Description
     ",
     progress_title: "Progress",
     lang_button_text: "Toggle Language",
@@ -183,6 +188,10 @@ pub const LOCALE_FR: Locale<'static> = Locale {
 
         <br/>
         J'ai également rencontré un étudiant en doctorat avec mon superviseur à MILA, qui travaillait auparavant sur l'OB. Cette rencontre a été utile et il a été conclu que je devrais essayer de trouver un moyen d'introduire une notion d'incertitude/de variance dans le réseau de substitution. C'est-à-dire que, au lieu de donner un point y pour un x donné, le réseau de substitution devrait donner la moyenne et la variance de y pour un x donné. Cela sera utilisé pour informer le modèle d'acquisition sur l'endroit où il doit échantillonner ensuite.
+    ",
+    progress_5_title: "todo",
+    progress_5_description: "
+        Description
     ",
     progress_title: "Progrès",
     lang_button_text: "Changer de Langue",
