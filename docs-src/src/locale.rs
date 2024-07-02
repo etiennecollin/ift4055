@@ -13,6 +13,8 @@ pub struct Locale<'a> {
     pub progress_2_description: &'a str,
     pub progress_3_title: &'a str,
     pub progress_3_description: &'a str,
+    pub progress_4_title: &'a str,
+    pub progress_4_description: &'a str,
     pub progress_title: &'a str,
     pub lang_button_text: &'a str,
     pub sidebar_title: &'a str,
@@ -50,6 +52,17 @@ pub const LOCALE_EN: Locale<'static> = Locale {
 
         <br/>
         The next step is to research on papers discussing the use of neural networks as AFs in BO in order to learn how they work and how to adapt them to my problem that is not an optimisation problem.
+    ",
+    progress_4_title: "Few Shot Learning and Meta Learning",
+    progress_4_description: "
+        After reading on BO, I stumbled on papers researching the use of meta learning and few shot learning in the context of BO. This is interesting because it could potentially help in the context of my project as my acquisition network should be able to learn from a class of problems and be able to make decisions on new problems it has never seen before (assuming it is also in that class of problems).
+
+        <br/>
+        Reading these papers and their code was interesting, but I was lacking the theoretical background to understand everything. I therefore followed online courses on meta learning and few shot learning before revisiting these papers.
+
+        <br/>
+        I also met a PhD student with my supervisor at MILA who used to work on BO. This meeting was helpful and it was concluded that I should try to find a way to introduce some notion of uncertainty/variance in the surrogate network. That is, instead of outputting a point y for a given x, the surrogate network should output the mean and variance of y for a given x. This will be used to inform the acquisition model where it should sample next.
+    ",
     ",
     progress_title: "Progress",
     lang_button_text: "Toggle Language",
@@ -160,6 +173,16 @@ pub const LOCALE_FR: Locale<'static> = Locale {
 
         <br/>
         La prochaine étape consiste à rechercher des articles discutant de l'utilisation des réseaux neuronaux comme FAs dans l'OB afin d'apprendre comment ils fonctionnent et comment les adapter à mon problème qui n'est pas un problème d'optimisation.
+    ",
+    progress_4_title: "Apprentissage par quelques exemples et méta-apprentissage",
+    progress_4_description: "
+        Après avoir lu sur l'optimisation bayésienne (OB), je suis tombé sur des articles de recherche concernant l'utilisation du méta-apprentissage et de l'apprentissage par petits échantillons dans le contexte de l'OB. C'est intéressant car cela pourrait potentiellement aider dans le cadre de mon projet, étant donné que mon réseau d'acquisition devrait être capable d'apprendre à partir d'une classe de problèmes et être capable de prendre des décisions sur de nouveaux problèmes qu'il n'a jamais vus auparavant (en supposant qu'ils appartiennent également à cette classe de problèmes).
+
+        <br/>
+        La lecture de ces articles et de leur code était intéressante, mais il me manquait le bagage théorique pour tout comprendre. J'ai donc suivi des cours en ligne sur le méta-apprentissage et l'apprentissage par petits échantillons avant de retourner à ces articles.
+
+        <br/>
+        J'ai également rencontré un étudiant en doctorat avec mon superviseur à MILA, qui travaillait auparavant sur l'OB. Cette rencontre a été utile et il a été conclu que je devrais essayer de trouver un moyen d'introduire une notion d'incertitude/de variance dans le réseau de substitution. C'est-à-dire que, au lieu de donner un point y pour un x donné, le réseau de substitution devrait donner la moyenne et la variance de y pour un x donné. Cela sera utilisé pour informer le modèle d'acquisition sur l'endroit où il doit échantillonner ensuite.
     ",
     progress_title: "Progrès",
     lang_button_text: "Changer de Langue",

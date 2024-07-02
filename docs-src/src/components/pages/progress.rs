@@ -16,6 +16,8 @@ pub fn Progress() -> impl IntoView {
     let (progress_2_description, progress_2_description_set) = create_signal(String::new());
     let (progress_3_title, progress_3_title_set) = create_signal(String::new());
     let (progress_3_description, progress_3_description_set) = create_signal(String::new());
+    let (progress_4_title, progress_4_title_set) = create_signal(String::new());
+    let (progress_4_description, progress_4_description_set) = create_signal(String::new());
 
     create_effect(move |_| {
         title_set.set(locale.get().progress_title.to_owned());
@@ -25,6 +27,8 @@ pub fn Progress() -> impl IntoView {
         progress_2_description_set.set(locale.get().progress_2_description.to_owned());
         progress_3_title_set.set(locale.get().progress_3_title.to_owned());
         progress_3_description_set.set(locale.get().progress_3_description.to_owned());
+        progress_4_title_set.set(locale.get().progress_4_title.to_owned());
+        progress_4_description_set.set(locale.get().progress_4_description.to_owned());
     });
 
     view! {
@@ -78,6 +82,22 @@ pub fn Progress() -> impl IntoView {
                     "<a href=\"https://www.youtube.com/watch?v=5Cqi-RAwAu8\">I get confused trying to learn Gaussian Processes | Learn with me!</a>"
                         .to_owned(),
                     "<a href=\"https://www.youtube.com/watch?v=iDzaoEwd0N0\">Easy introduction to gaussian process regression (uncertainty models)</a>"
+                        .to_owned(),
+                ]
+            />
+
+            <Event
+                title=progress_4_title
+                date="2024/06/11 - 2024/06/25"
+                description=progress_4_description
+                list=vec![
+                    "<a href=\"https://youtube.com/playlist?list=PLgtf4d9zHHO8YjSSkkBT55XN8xsIvb-ku&si=x6xxFtBypm7WWjbj\">Meta Learning & Few-Shot Learning - Shusen Wang</a>"
+                        .to_owned(),
+                    "<a href=\"https://www.youtube.com/watch?v=SxGYPqCgJWM\">Intuitively Understanding the KL Divergence</a>"
+                        .to_owned(),
+                    "<a href=\"https://arxiv.org/abs/2101.07667\">Few-Shot Bayesian Optimization with Deep Kernel Surrogates</a>"
+                        .to_owned(),
+                    "<a href=\"https://arxiv.org/abs/2106.04335\">Reinforced Few-Shot Acquisition Function Learning for Bayesian Optimization</a>"
                         .to_owned(),
                 ]
             />
