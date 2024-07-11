@@ -18,6 +18,10 @@ pub fn Progress() -> impl IntoView {
     let (progress_3_description, progress_3_description_set) = create_signal(String::new());
     let (progress_4_title, progress_4_title_set) = create_signal(String::new());
     let (progress_4_description, progress_4_description_set) = create_signal(String::new());
+    let (progress_5_title, progress_5_title_set) = create_signal(String::new());
+    let (progress_5_description, progress_5_description_set) = create_signal(String::new());
+    let (progress_6_title, progress_6_title_set) = create_signal(String::new());
+    let (progress_6_description, progress_6_description_set) = create_signal(String::new());
 
     create_effect(move |_| {
         title_set.set(locale.get().progress_title.to_owned());
@@ -29,6 +33,10 @@ pub fn Progress() -> impl IntoView {
         progress_3_description_set.set(locale.get().progress_3_description.to_owned());
         progress_4_title_set.set(locale.get().progress_4_title.to_owned());
         progress_4_description_set.set(locale.get().progress_4_description.to_owned());
+        progress_5_title_set.set(locale.get().progress_5_title.to_owned());
+        progress_5_description_set.set(locale.get().progress_5_description.to_owned());
+        progress_6_title_set.set(locale.get().progress_6_title.to_owned());
+        progress_6_description_set.set(locale.get().progress_6_description.to_owned());
     });
 
     view! {
@@ -98,6 +106,24 @@ pub fn Progress() -> impl IntoView {
                     "<a href=\"https://arxiv.org/abs/2101.07667\">Few-Shot Bayesian Optimization with Deep Kernel Surrogates</a>"
                         .to_owned(),
                     "<a href=\"https://arxiv.org/abs/2106.04335\">Reinforced Few-Shot Acquisition Function Learning for Bayesian Optimization</a>"
+                        .to_owned(),
+                ]
+            />
+
+            <Event
+                title=progress_5_title
+                date="2024/06/25 - 2024/07/09"
+                description=progress_5_description
+                list=vec![
+                    "<a href=\"https://medium.com/@pumplerod/probabilistic-neural-network-with-pytorch-11ec04479f67\">Probabilistic Neural Network with Pytorch</a>"
+                        .to_owned(),
+                    "<a href=\"https://www.youtube.com/watch?v=OVne8jDKGUI\">Bayesian Neural Network | Deep Learning</a>"
+                        .to_owned(),
+                    "<a href=\"https://www.ritchievink.com/blog/2019/05/24/algorithm-breakdown-expectation-maximization/\">Algorithm Breakdown: Expectation Maximization</a>"
+                        .to_owned(),
+                    "<a href=\"https://www.ritchievink.com/blog/2019/06/10/bayesian-inference-how-we-are-able-to-chase-the-posterior/\">Bayesian inference; How we are able to chase the Posterior</a>"
+                        .to_owned(),
+                    "<a href=\"https://www.ritchievink.com/blog/2019/09/16/variational-inference-from-scratch/\">Variational inference from scratch</a>"
                         .to_owned(),
                 ]
             />

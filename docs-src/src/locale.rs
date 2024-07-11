@@ -17,6 +17,8 @@ pub struct Locale<'a> {
     pub progress_4_description: &'a str,
     pub progress_5_title: &'a str,
     pub progress_5_description: &'a str,
+    pub progress_6_title: &'a str,
+    pub progress_6_description: &'a str,
     pub progress_title: &'a str,
     pub lang_button_text: &'a str,
     pub sidebar_title: &'a str,
@@ -65,10 +67,24 @@ pub const LOCALE_EN: Locale<'static> = Locale {
         <br/>
         I also met a PhD student with my supervisor at MILA who used to work on BO. This meeting was helpful and it was concluded that I should try to find a way to introduce some notion of uncertainty/variance in the surrogate network. That is, instead of outputting a point y for a given x, the surrogate network should output the mean and variance of y for a given x. This will be used to inform the acquisition model where it should sample next.
     ",
-    progress_5_title: "todo",
+    progress_5_title: "Active Learning",
     progress_5_description: "
-        Description
+        First, I read on Expectation Maximization, Bayesian inference, Variational Inference and Bayesian Neural Network Regression. These topics are all liked to the idea of adding uncertainty to neural networks. Although I am far from being an expert after a single week, it was extremely interesting how one can program a neural network to inherently output some kind of uncertainty in its predictions.
+
+        <br/>
+        Then, after reading papers and looking at how people implemented these kind of networks, I had another meeting with the PhD student. These meetings have helped me a lot and made me progress. We determined that the entire problem I am facing, that is, the problem of efficiently sampling points in a \"black box\" function to train a surrogate model with the least amount of evaluations of the \"black box\", is a problem of active learning. 
+
+        <br/>
+        Active learning is the concept of training a model to learn from the data it is given and, in a way, it to be able to ask for more data where it needs it. Generally, this is used when we have a partially labeled dataset; we can train a model on the labeled data and use that model to label the rest of the dataset. With each predictions, the model also outputs a measure of uncertainty. This uncertainty can be used to determine wheteher we can use the label to add to the training set or if the sample should be manually labeled. This allows spending less time labelling data that a model can already predict with high confidence.
+
+        <br/>
+        My project is a bit different in the sense that I don't have a dataset, but a function. However, the idea is the same. The surrogate model should be able to ask for more points in the function space where it needs it. This is what the acquisition function will do.
+
+        <br/>
+        I will therefore spend the next week reading on Active Learning and how it can be applied to my problem.
     ",
+    progress_6_title: "",
+    progress_6_description: "",
     progress_title: "Progress",
     lang_button_text: "Toggle Language",
     sidebar_title: "IFT4055 - Honors Project",
@@ -189,10 +205,24 @@ pub const LOCALE_FR: Locale<'static> = Locale {
         <br/>
         J'ai également rencontré un étudiant en doctorat avec mon superviseur à MILA, qui travaillait auparavant sur l'OB. Cette rencontre a été utile et il a été conclu que je devrais essayer de trouver un moyen d'introduire une notion d'incertitude/de variance dans le réseau de substitution. C'est-à-dire que, au lieu de donner un point y pour un x donné, le réseau de substitution devrait donner la moyenne et la variance de y pour un x donné. Cela sera utilisé pour informer le modèle d'acquisition sur l'endroit où il doit échantillonner ensuite.
     ",
-    progress_5_title: "todo",
+    progress_5_title: "Apprentissage Actif",
     progress_5_description: "
-        Description
+        Tout d'abord, j'ai lu sur l'Expectation Maximization, l'inférence bayésienne, l'inférence variationnelle et la régression avec les réseaux de neurones bayésiens. Ces sujets sont tous liés à l'idée d'ajouter de l'incertitude aux réseaux de neurones. Bien que je sois loin d'être un expert après une seule semaine, il était extrêmement intéressant de voir comment on peut programmer un réseau de neurones pour qu'il produise intrinsèquement une certaine forme d'incertitude dans ses prédictions.
+
+        <br/>
+        Ensuite, après avoir lu des articles et observé comment les gens implémentaient ce genre de réseaux, j'ai eu une autre réunion avec l'étudiant en doctorat. Ces réunions m'ont beaucoup aidé et m'ont fait progresser. Nous avons déterminé que tout le problème auquel je fais face, c'est-à-dire le problème de l'échantillonnage efficace de points dans une fonction « boîte noire » pour entraîner un modèle de substitution avec le moins d'évaluations possibles de la « boîte noire », est un problème d'apprentissage actif.
+
+        <br/>
+        L'apprentissage actif est le concept d'entraîner un modèle à apprendre à partir des données qui lui sont fournies et, d'une certaine manière, d'être capable de demander plus de données là où il en a besoin. En général, cela est utilisé lorsque nous avons un ensemble de données partiellement étiqueté; nous pouvons entraîner un modèle sur les données étiquetées et utiliser ce modèle pour étiqueter le reste de l'ensemble de données. À chaque prédiction, le modèle produit également une mesure d'incertitude. Cette incertitude peut être utilisée pour déterminer si nous pouvons utiliser l'étiquette pour ajouter à l'ensemble d'entraînement ou si l'échantillon doit être étiqueté manuellement. Cela permet de passer moins de temps à étiqueter des données qu'un modèle peut déjà prédire avec une grande confiance.
+
+        <br/>
+        Mon projet est un peu différent dans le sens où je n'ai pas d'ensemble de données, mais une fonction. Cependant, l'idée est la même. Le modèle de substitution devrait être capable de demander plus de points dans l'espace fonctionnel là où il en a besoin. C'est ce que fera la fonction d'acquisition.
+
+        <br/>
+        Je vais donc passer la semaine prochaine à lire sur l'apprentissage actif et comment il peut être appliqué à mon problème.
     ",
+    progress_6_title: "",
+    progress_6_description: "",
     progress_title: "Progrès",
     lang_button_text: "Changer de Langue",
     sidebar_title: "IFT4055 - Projet Honor",
