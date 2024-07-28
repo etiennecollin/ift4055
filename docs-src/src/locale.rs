@@ -83,8 +83,31 @@ pub const LOCALE_EN: Locale<'static> = Locale {
         <br/>
         I will therefore spend the next week reading on Active Learning and how it can be applied to my problem.
     ",
-    progress_6_title: "",
-    progress_6_description: "",
+    progress_6_title: "Implementation and Paper Discussion",
+    progress_6_description: "
+        Searching papers on active learning, I stumbled on a paper on \"Multi-Fidelity Active Learning with GFlowNets\" written by a Mila post-doc that shared some aspects to my project. I discussed that paper with the previous PhD student and ended up contacting the author to discuss his work.
+
+        <br/>
+        The rest of my time was spent on implementing a gaussian process surrogate network. I found out about a technique called Sparse Axis-Aligned Subspace BO (SAASBO) which avoids overfitting in high-dimensional spaces and is designed for problems with a limited evaluation budget.
+
+        <br/>
+        Later, I presented a paper during a paper discussion at Mila. That paper was about creating a multi-modal LLMs using single-modal training. It was interesting and, I believe, has great potential in a lot of applications.
+
+        <br/>
+        <br/>
+        <b>Paper Discussion</b>
+        <br/>
+        On July 17th, 2024, the paper titled \"E5-V: Universal Embeddings with Multimodal Large Language Models\" was submitted. The central issue addressed in the paper is the high cost and complexity associated with training multimodal models. These models, which integrate different types of data (e.g., text and images), require larger embeddings for improved performance. The paper highlights the existing challenges, including the so-called \"multimodal gap\" where separate encoders for each modality lead to suboptimal understanding and limitations in retrieving long texts or composed image information. Additionally, creating high-quality datasets for training such models is both rare and complex. The training time for single modality models is significantly shorter—taking just 1.5 hours on 32 V100 GPUs—compared to the 34.9 hours required for multimodal training in the same environment.
+
+        <br/>
+        The core idea of the paper is to unify multimodal embeddings by instructing Multimodal Large Language Models (MLLMs) to convert multimodal inputs into a unified word-based representation. For text, this involves summarizing the content into a single word, and for images, it involves summarizing the image content in a similar fashion. The paper demonstrates this approach by extracting the meaning of multimodal inputs and compressing it into the next token embeddings.
+
+        <br/>
+        The effectiveness of this method is rooted in the elimination of the multimodal gap. By transferring the capabilities of single modality representations to multimodal embeddings, the approach achieves notable improvements. The technique involves contrastive learning on text pairs, removing the need for modality-specific encoders and projectors as no visual inputs are required. This method has been evaluated in zero-shot settings without fine-tuning.
+
+        <br/>
+        The results from benchmarking reveal that text-image interactions perform well, as do composed prompts that include both text and images. However, image-image interactions are less effective, although text rendered as images and sentence embeddings show promising results.
+    ",
     progress_title: "Progress",
     lang_button_text: "Toggle Language",
     sidebar_title: "IFT4055 - Honors Project",
@@ -221,8 +244,31 @@ pub const LOCALE_FR: Locale<'static> = Locale {
         <br/>
         Je vais donc passer la semaine prochaine à lire sur l'apprentissage actif et comment il peut être appliqué à mon problème.
     ",
-    progress_6_title: "",
-    progress_6_description: "",
+    progress_6_title: "Implémentation et présentation d'article",
+    progress_6_description: "
+        En cherchant des articles sur l'apprentissage actif, je suis tombé sur un article intitulé « Apprentissage Actif Multi-Fidélité avec GFlowNets » rédigé par un post-doctorant de Mila qui partageait certains aspects de mon projet. J'ai discuté de cet article avec l'ancien doctorant et j'ai fini par contacter l'auteur pour discuter de son travail.
+
+        <br/>
+        Le reste de mon temps a été consacré à la mise en œuvre d'un réseau de substitution de processus gaussien. J'ai découvert une technique appelée BO Subspace Aligné Épars (SAASBO) qui évite le surapprentissage dans les espaces de haute dimension et est conçue pour les problèmes avec un budget d'évaluation limité.
+
+        <br/>
+        Plus tard, j'ai présenté un article lors d'une discussion d'articles à Mila. Cet article portait sur la création de LLMs multimodaux en utilisant une formation unimodale. C'était intéressant et, je crois, a un grand potentiel dans de nombreuses applications.
+
+        <br/>
+        <br/>
+        <b>Présentation d'un article</b>
+        <br/>
+        Le 17 juillet 2024, l'article intitulé \"E5-V: Universal Embeddings with Multimodal Large Language Models\" a été soumis. Le problème central abordé dans l'article est le coût élevé et la complexité associés à l'entraînement des modèles multimodaux. Ces modèles, qui intègrent différents types de données (par exemple, texte et images), nécessitent des embeddings plus grands pour améliorer les performances. L'article souligne les défis existants, y compris le soi-disant \"fossé multimodal\" où des encodeurs séparés pour chaque modalité conduisent à une compréhension sous-optimale et à des limitations dans la récupération de longs textes ou d'informations composées d'images. De plus, créer des ensembles de données de haute qualité pour l'entraînement de tels modèles est à la fois rare et complexe. Le temps d'entraînement unimodal pour un modèle multimodal est considérablement plus court — seulement 1,5 heures sur 32 GPU V100 — comparé aux 34,9 heures nécessaires pour l'entraînement multimodal dans le même environnement.
+
+        <br/>
+        L'idée centrale de l'article est d'unifier les embeddings multimodaux en instruisant les Modèles de Langage Multimodaux (MLLMs) pour convertir les entrées multimodales en une représentation unifiée basée sur les mots. Pour le texte, cela implique de résumer le contenu en un seul mot, et pour les images, cela implique de résumer le contenu de l'image de manière similaire. L'article démontre cette approche en extrayant le sens des entrées multimodales et en le compressant dans les embeddings du prochain token.
+
+        <br/>
+        L'efficacité de cette méthode repose sur l'élimination du fossé multimodal. En transférant les capacités des représentations unimodales aux embeddings multimodaux, l'approche réalise des améliorations notables. La technique implique l'apprentissage contrastif sur des paires de texte, éliminant le besoin d'encodeurs et de projecteurs spécifiques à la modalité car aucun input visuel n'est requis. Cette méthode a été évaluée dans des contextes zero-shot sans ajustements.
+
+        <br/>
+        Les résultats du benchmarking révèlent que les prompts texte-image fonctionnent bien, tout comme les prompts composées incluant à la fois du texte et des images. Cependant, ceux de type image-image sont moins efficaces, bien que le texte rendu sous forme d'images et les embeddings de phrases montrent des résultats prometteurs.
+    ",
     progress_title: "Progrès",
     lang_button_text: "Changer de Langue",
     sidebar_title: "IFT4055 - Projet Honor",

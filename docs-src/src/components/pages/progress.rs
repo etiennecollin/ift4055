@@ -127,6 +127,20 @@ pub fn Progress() -> impl IntoView {
                         .to_owned(),
                 ]
             />
+
+            <Event
+                title=progress_6_title
+                date="2024/07/09 - 2024/07/23"
+                description=progress_6_description
+                list=vec![
+                    "<a href=\"https://arxiv.org/abs/2306.11715\">Multi-Fidelity Active Learning with GFlowNets</a>"
+                        .to_owned(),
+                    "<a href=\"https://arxiv.org/abs/2103.00349\">High-Dimensional Bayesian Optimization with Sparse Axis-Aligned Subspaces</a>"
+                        .to_owned(),
+                    "<a href=\"https://botorch.org/tutorials/saasbo\">High-Dimensional sample-efficient Bayesian Optimization with SAASBO</a>"
+                        .to_owned(),
+                ]
+            />
         </Section>
     }
 }

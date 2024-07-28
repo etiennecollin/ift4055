@@ -6,9 +6,9 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-leptos = { version = "0.6.11", features = ["nightly", "csr", "serde"] }
-leptos_meta = "0.6.11"
-leptos_router = { version = "0.6.11", features = ["nightly", "csr"] }
+leptos = { version = "0.6.12", features = ["nightly", "csr", "serde"] }
+leptos_meta = "0.6.12"
+leptos_router = { version = "0.6.12", features = ["nightly", "csr"] }
 
 [profile.release]
 opt-level = "z"
