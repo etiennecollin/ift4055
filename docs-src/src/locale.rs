@@ -19,6 +19,8 @@ pub struct Locale<'a> {
     pub progress_5_description: &'a str,
     pub progress_6_title: &'a str,
     pub progress_6_description: &'a str,
+    pub progress_7_title: &'a str,
+    pub progress_7_description: &'a str,
     pub progress_title: &'a str,
     pub lang_button_text: &'a str,
     pub sidebar_title: &'a str,
@@ -107,6 +109,13 @@ pub const LOCALE_EN: Locale<'static> = Locale {
 
         <br/>
         The results from benchmarking reveal that text-image interactions perform well, as do composed prompts that include both text and images. However, image-image interactions are less effective, although text rendered as images and sentence embeddings show promising results.
+    ",
+    progress_7_title: "Implementation and Writing",
+    progress_7_description: "
+        These past few weeks, I focused primarily on enhancing the implementation of the Gaussian process and integrating the GFlowNet into the project. A significant portion of my efforts went into designing the reward function and determining the appropriate state for the network. Additionally, it was decided that a Set Transformer should be incorporated into the project architecture to preprocess the GFlowNet's input, ensuring it remains invariant to input permutations, given that the data consists of sets of points where sampling order is irrelevant.
+
+        <br/>
+        My time was evenly distributed between coding, problem-solving, and writing my report.
     ",
     progress_title: "Progress",
     lang_button_text: "Toggle Language",
@@ -268,6 +277,13 @@ pub const LOCALE_FR: Locale<'static> = Locale {
 
         <br/>
         Les résultats du benchmarking révèlent que les prompts texte-image fonctionnent bien, tout comme les prompts composées incluant à la fois du texte et des images. Cependant, ceux de type image-image sont moins efficaces, bien que le texte rendu sous forme d'images et les embeddings de phrases montrent des résultats prometteurs.
+    ",
+    progress_7_title: "Implémentations et Rédaction",
+    progress_7_description: "
+        Ces dernières semaines, je me suis principalement concentré sur l'amélioration de l'implémentation du processus gaussien et l'intégration du GFlowNet dans le projet. Une grande partie de mes efforts a été consacrée à la conception de la fonction de récompense et à déterminer quel serait un état approprié pour le réseau. De plus, il a été décidé d'incorporer un Set Transformer dans l'architecture du projet pour prétraiter les entrées du GFlowNet, afin qu'elles restent invariantes aux permutations, étant donné que les données consistent en des ensembles de points où l'ordre d'échantillonnage n'est pas important.
+
+        <br/>
+        Mon temps a été réparti équitablement entre l'implémentation, la résolution de problèmes et la rédaction de mon rapport.
     ",
     progress_title: "Progrès",
     lang_button_text: "Changer de Langue",

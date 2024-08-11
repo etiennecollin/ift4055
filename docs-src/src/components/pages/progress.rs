@@ -22,6 +22,8 @@ pub fn Progress() -> impl IntoView {
     let (progress_5_description, progress_5_description_set) = create_signal(String::new());
     let (progress_6_title, progress_6_title_set) = create_signal(String::new());
     let (progress_6_description, progress_6_description_set) = create_signal(String::new());
+    let (progress_7_title, progress_7_title_set) = create_signal(String::new());
+    let (progress_7_description, progress_7_description_set) = create_signal(String::new());
 
     create_effect(move |_| {
         title_set.set(locale.get().progress_title.to_owned());
@@ -37,6 +39,8 @@ pub fn Progress() -> impl IntoView {
         progress_5_description_set.set(locale.get().progress_5_description.to_owned());
         progress_6_title_set.set(locale.get().progress_6_title.to_owned());
         progress_6_description_set.set(locale.get().progress_6_description.to_owned());
+        progress_7_title_set.set(locale.get().progress_7_title.to_owned());
+        progress_7_description_set.set(locale.get().progress_7_description.to_owned());
     });
 
     view! {
@@ -140,6 +144,12 @@ pub fn Progress() -> impl IntoView {
                     "<a href=\"https://botorch.org/tutorials/saasbo\">High-Dimensional sample-efficient Bayesian Optimization with SAASBO</a>"
                         .to_owned(),
                 ]
+            />
+
+            <Event
+                title=progress_7_title
+                date="2024/07/23 - 2024/08/13"
+                description=progress_7_description
             />
         </Section>
     }
