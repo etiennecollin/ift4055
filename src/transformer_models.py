@@ -1,4 +1,4 @@
-from st_modules import *
+from transformer_modules import *
 
 class DeepSet(nn.Module):
     def __init__(self, dim_input, num_outputs, dim_output, dim_hidden=128):

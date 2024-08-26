@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import numpy as np
-from st_models import *
+from transformer_models import *
 from tqdm import trange
 import matplotlib.pyplot as plt
 
