@@ -6,28 +6,39 @@
   resolution, driven by technological advancements, presents a formidable
   challenge for probabilistic data analysis. Traditional computational methods
   become impractical as some simulations, for example in cosmology, require an
-  exorbitant 100 million CPU hours to evaluate a single likelihood or posterior.
-  Because of this, scientists turn to modeling accurate approximations of their
-  problems. But this creates a "chicken or egg" dilemma: training models to
-  approximate these computationally intensive oracles necessitates prior
-  evaluations of the oracle to generate training samples. There is a need for
-  efficient and intelligent sampling.
+  exorbitant 100 million CPU hours to evaluate and sample. Because of this,
+  scientists turn to modeling accurate approximations of their problems. But this
+  creates a "chicken or egg" dilemma: training models to approximate these
+  computationally intensive oracles necessitates prior evaluations of the oracles
+  to generate training samples. There is a need for efficient and intelligent
+  sampling.
 
   Addressing this problem is hard; we propose an innovative approach utilizing a
   Gaussian Process (GP) as a surrogate model, which provides an uncertainty on
   approximations. To efficiently train the GP, we employ a Generative Flow Network
-  (GFN) for acquiring training samples. The inputs to the GFN are pre-processed
-  using a Set Transformer, enhancing the model's capacity to identify and leverage
-  patterns within the data. By training the GFN on inexpensive-to-sample problems
-  of the same class, it learns underlying patterns, structures and symmetries in
-  the data, thereby optimizing the sampling process for the GP. This methodology
-  significantly reduces the computational burden, enabling more feasible and
+  (GFN) for acquiring training samples. The GFN, trained on inexpensive-to-sample
+  problems and guided by a custom-designed reward function, learns underlying
+  patterns, structures, and symmetries in the data, thereby balancing exploration
+  and exploitation in high-dimensional spaces and optimizing the sampling process
+  for the GP. This methodology allows the GFN to enhance the GP’s training by
+  identifying the most informative samples, significantly reducing the
+  computational burden. Consequently, our approach enables more feasible and
   efficient analysis of high-resolution and high-dimensional data across various
   scientific disciplines.
+
+  While the proposed approach requires a substantial initial computational
+  investment, particularly due to the iterative training of both the GP and GFN,
+  it offers long-term efficiency gains by reducing the need for exhaustive oracle
+  evaluations in future applications. Furthermore, the approach demonstrates
+  promising potential for generalization across new datasets, making it a
+  versatile tool for scientific fields requiring high-dimensional and
+  high-resolution data analysis. It represents a significant advancement in
+  overcoming the limitations of traditional methods and paves the way for more
+  efficient computational analyses in data-intensive research.
 ]
 
 #show: doc => article(
-  title: "Summer Research Internship", subtitle: "Report", abstract: abstract, authors: (
+  title: "Summer Research Internship", subtitle: "Generative Flow Networks for Probabilistic Surrogates: Addressing High-Dimensional Cost Challenges", abstract: abstract, authors: (
     (
       name: "Etienne Collin", id: 20237904, affiliations: ("Université de Montréal", "CIELA", "MILA",), email: "contact@etiennecollin.com",
     ),
