@@ -247,7 +247,8 @@ spaces.
 
 In practice, our GFlowNet implementation is inspired by the examples presented
 in the TorchGFN library @lahlouTorchgfnPyTorchGFlowNet2023 and is based on the
-trajectory balance training objective.
+trajectory balance training objective. This training objective well known,
+relatively easy to implement and produces good results.
 
 #pagebreak()
 
@@ -395,6 +396,10 @@ Finally, we take the log of the reward and, therefore, respect the constraints
 of the trajectory balance training objective. In other words, our reward
 function some kind of "log probability".
 
+Overall, the reward function allows the model quantify how well it is doing and
+to learn to sample the most informative points first, efficiently and
+accurately.
+
 #pagebreak()
 == Designing the State and Action Space
 
@@ -484,6 +489,10 @@ L2 norm between the embeddings. The goal is to have the distance between the
 embeddings of the permutations be 0, and infinity for the distance between the
 embeddings of the non-permutations.
 
+This kind of contrastive learning is what we mean by semi-supervised learning.
+The model is not given the labels of the data, but it is given a way to
+differentiate between the two classes of data.
+
 To do so, given $x_1$ and $y_1$ the pair of embeddings that are permutations of
 one another and $x_2$ and $y_2$ the pair of embeddings that are not, we compute
 the following distances:
@@ -522,6 +531,11 @@ $ "scaling"(x) = (-x) / (1 + abs(x)) + 1 $
 This function scales the L2Norm between 0 and 1: 1 when the distance is 0 and 0
 as the distance approaches infinity. We then use the sum of $l_a$ and $l_b$ as
 the loss.
+
+Overall, when used in our set transformer, this loss allows us to generate
+embeddings that are able to differentiate between permutations and
+non-permutations of the input lists. This is exactly what is needed to train a
+model that does not care about the order of the points.
 
 #pagebreak()
 = Training Architecture and Process
@@ -582,9 +596,17 @@ variance of the non-permuted. This makes sense as the non-permutation pairs were
 generated randomly and therefore could have been more or less similar to one
 another.
 
+During the final steps of the implementation, the reward of the acquisition
+GFlowNet was updated such that it does no require the embeddings of the set
+transformer. In fact, statistical tools such as the KL divergence and PQMass
+were used in the reward, and such tools do not require a set representation. Set
+Transformers were therefore not used in the final implementation of the project,
+but are still included in this report as they were part of the initial design
+and could be reintroduced in the future.
+
 #pagebreak()
 == Surrogate Gaussian Process
-Then, we present the results of the surrogate Gaussian Process:
+Then, we present the results of the surrogate Gaussian Process (GP):
 
 #figure(
   grid(
@@ -598,15 +620,16 @@ As points are added to the training dataset (as seen in @fig-gp_results), the GP
 is able to approximate the function more accurately. The uncertainty of the GP
 decreases as more points are added to the training dataset, but even where the
 uncertainty is high, the true function is almost always within the $2 sigma$ uncertainty
-range and close to the mean of the predictions.
+range and close to the mean of the predictions. This shows how the GP is able to
+accurately approximate an oracle function.
 
 #pagebreak()
 == Acquisition GFlowNet
 
-Finally, we present the results of the acquisition GFlowNet.
+Finally, we present the results of the acquisition GFlowNet (GFN).
 
-First we show a visualization of the training process of the GFlowNet on a
-simple gaussian mixture problem:
+First we show a visualization of the training process of the GFN on a simple
+gaussian mixture problem:
 
 #figure(
   grid(
@@ -627,15 +650,22 @@ such a point, it will try to explore more of the space. This is visible in the
 last plot where the model starts to explore the second mode of the gaussian
 mixture.
 
-#todo[show results of the GFN]
-
 #figure(
   grid(
     columns: 2, image("assets/gfn/gfn_0.png", width: 100%), image("assets/gfn/gfn_1.png", width: 100%), image("assets/gfn/gfn_2.png", width: 100%), image("assets/gfn/gfn_3.png", width: 100%),
-  ), caption: [ Iterative training of a Gaussian Process. Each step, a training point is
-    randomly selected on the domain $[-15, 15]$ of the function and added to the
-    training dataset along with its corresponding oracle evaluation. ],
+  ), caption: [Usage of the acquisition GFlowNet (GFN) to train a Gaussian Process surrogate on
+    a gaussian mixture distribution. This GFN was trained on 5 gaussian mixture
+    distributions featuring each two gaussians equaly separated from the origin.
+    Each plot shows different training steps of the GP.],
 ) <fig-gfn_results>
+
+@fig-gfn_results shows the usage of the GFN to train a Gaussian Process. The
+most interesting and important fact in this result is that, even with a really
+short training on 5 prior examples of gaussian mixtures, the acquisition model
+is able to learn to provide informative points and does not simply converge to 0
+or diverge to infinity. This is crucial as it means that with more work, time
+and training, such a model architecture could be used to train on a
+hard-to-sample problems.
 
 #pagebreak()
 = Discussion
@@ -696,7 +726,16 @@ has the potential to reduce costs in the long term by spreading these expenses
 across future evaluations, making it a more efficient alternative over time.
 Future works should focus on optimizing the training process to reduce
 computational overhead and determine a threshold at which our proposed approach
-becomes more efficient than traditional methods.
+becomes more efficient than traditional methods. Given more time, one of the
+first things to do would be to tweak the GFN and let it train on a few hundred
+examples of the same class of problems.
+
+Moreover, GFNs are still in their infancy and not as well understood as other
+types of models. As time passes and they become more common, researched and
+documented, it is possible that new training objectives, or entirely new
+training techniques, will be developed that could improve the performance of the
+model. This is an exciting prospect, as it could lead to even more efficient and
+effective models.
 
 Overall, our methodology demonstrates significant potential in the field of
 probabilistic data analysis by combining a GP surrogate model with a novel
@@ -771,5 +810,6 @@ interesting papers he sent me over the project. He took the time to enlighten me
 on the weird kwirks and features of pytorch and it is truly appreciated.\
 Thank you to Clement Gehring for his time and the help he provided. He helped me
 understand some of the papers I read and gave me a lot of ideas as to how the
-models would interact with one another.
-
+models would interact with one another.\
+Thank you to Félix Guilbert-Savary for being an awesome rubber duck; you helped
+me a lot in organising my thoughts.
