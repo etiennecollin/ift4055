@@ -28,7 +28,7 @@ flowchart LR
         subgraph gfn_training[Training]
             direction LR
 
-            gfn_gp_output[(Gaussian Process Output Distribution)]
+            gfn_gp_output[(Gaussian Process Posterior Samples)]
             pqm1[PQMass]
             pqm2[PQMass]
             kl1[KL Divergence]
