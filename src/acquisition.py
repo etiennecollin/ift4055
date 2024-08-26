@@ -142,9 +142,7 @@ class AcquisitionTrainer:
             if it%20 == 0:
                 surrogate.plot_gp(graph_x, graph_y, posterior, path=f"./plots/gif_gfn_3/gfn_{problem_i:02d}_{eval_i:04d}_{it:04d}.png")
 
-            surrogate.pop_data_point()
-
-            reward, a, b, c, kl_diff = self.env.reward(surrogate.train_y, gp_samples)
+            reward, a, b, c, kl_diff = self.env.reward(new_x, surrogate.train_x, surrogate.train_y, gp_samples)
             loss = (self.logZ + logPF - logPB - reward).pow(2).mean()
 
             self.optimizer.zero_grad()
@@ -152,6 +150,7 @@ class AcquisitionTrainer:
             self.optimizer.step()
             losses.append(loss.item())
 
+            surrogate.pop_data_point()
             tbar.set_postfix_str(
                 f"i:{it} (l={np.mean(losses[-10:]):.2e}, r={reward:.2e}, t:{[f'{n.item():.2e}' for n in [a, b, c, kl_diff]]})"
             )

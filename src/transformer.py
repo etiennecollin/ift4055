@@ -3,6 +3,7 @@ import torch.nn as nn
 import numpy as np
 from st_models import *
 from tqdm import trange
+import matplotlib.pyplot as plt
 
 class SetTransformerTrainer:
     def __init__(self, dim_input, dim_hidden, dim_output, **kwargs):
@@ -13,7 +14,7 @@ class SetTransformerTrainer:
         self.num_outputs = kwargs.get("num_outputs", 8)
         self.num_inds = kwargs.get("num_inds", 64)
         self.num_heads = kwargs.get("num_heads", 8)
-        
+
         self.lr = kwargs.get("lr", 1e-12)
         self.lr_multiplicator = kwargs.get("lr_multiplicator", 1e-2)
         self.tensor_length_min = kwargs.get("tensor_length_min", 2**2)
@@ -45,15 +46,15 @@ class SetTransformerTrainer:
     def gen_data(self, number_pts, permutation=True, domain=(0,100)):
         rng = np.random.default_rng()
         x = rng.uniform(domain[0], domain[1], (number_pts, self.dim_input))
-        
+
         if permutation:
             y = rng.permutation(x)
         else:
             y = rng.uniform(domain[0], domain[1], (number_pts, self.dim_input))
-        
+
         x, y = np.expand_dims(x, axis=0), np.expand_dims(y, axis=0)
         x, y = torch.from_numpy(x).to(self.device, self.dtype), torch.from_numpy(y).to(self.device, self.dtype)
-        
+
         return x, y
 
     def train(self, iterations):
@@ -64,7 +65,7 @@ class SetTransformerTrainer:
         print("_i: L2Norm of Invalid Permutations")
         print("_v: L2Norm of Valid Permutations")
         print("loss: Loss of model")
-        
+
         tbar = trange(iterations, desc="Training", unit="it")
         for i in tbar:
             # Update learning rate for second half of training
@@ -109,7 +110,7 @@ class SetTransformerTrainer:
 
                 loss_valid_perm = loss_a.item()
                 loss_invalid_perm = loss_b.item()
-            
+
             # Step
             self.optimizer.zero_grad()
             loss.backward()
@@ -119,15 +120,17 @@ class SetTransformerTrainer:
             losses_valid_perm.append(loss_valid_perm)
             losses_invalid_perm.append(loss_invalid_perm)
             tbar.set_postfix_str("loss={:.3E}, v={:.3E}, i={:.3E}".format(np.mean(losses), np.mean(losses_valid_perm), np.mean(losses_invalid_perm)))
-        
+
         return losses, losses_valid_perm, losses_invalid_perm
 
-    def test(self, iterations=10, perm_threshold=1e-12, only_valid_perms=False):
+    def test(self, iterations=10, perm_threshold=1e-12, only_valid_perms=False, no_break=False):
         with torch.no_grad():
             l2norm = torch.nn.PairwiseDistance(p=2, eps=0)
             rng = np.random.default_rng()
-            
+
             print("Testing...")
+            valid_list = []
+            invalid_list = []
             for i in range(only_valid_perms, 2):
                 tbar = trange(iterations, desc="Testing invalid permutations" if i == 0 else "Testing valid permutations", unit="it")
                 for j in tbar:
@@ -142,13 +145,48 @@ class SetTransformerTrainer:
 
                     # Compute distance
                     distance = l2norm(embedding_1, embedding_2).item()
-                    if ((i == 0 and distance <= perm_threshold) or (i == 1 and distance > perm_threshold)):
+                    if ((i == 0 and distance <= perm_threshold) or (i == 1 and distance > perm_threshold)) and not no_break:
                         print(distance)
                         print(x1.shape, x1)
                         print(x2.shape, x2)
                         print(embedding_1.shape, embedding_1)
                         print(embedding_2.shape, embedding_2)
                         break
+
+                    if i==0:
+                        invalid_list.append(distance)
+                    else:
+                        valid_list.append(distance)
+
+        return valid_list, invalid_list
+
+    def plot(self, valid_perm_distances, invalid_perm_distances, show_plot=True, save_path=None):
+        # Create a new figure
+        plt.figure(figsize=(10, 3))
+
+        # Plot valid_list on a fixed y-value (e.g., y=1)
+        plt.scatter(valid_perm_distances, [0] * len(valid_perm_distances), color='g', label="Permutations", alpha=0.6, s=10)
+
+        # Plot invalid_list on a different fixed y-value (e.g., y=0)
+        plt.scatter(invalid_perm_distances, [0] * len(invalid_perm_distances), color='r', label="Non-Permutations", alpha=0.6, s=10)
+
+        # Add title and labels
+        plt.title("Embeddings of Set Transformer")
+        plt.xlabel("L2 Norm of Distance Between Embeddings Pairs")
+        plt.xscale("log")
+        plt.yticks([])  # Remove y-axis ticks
+        plt.legend()
+        plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+
+        if save_path is not None:
+            plt.savefig(save_path)
+        if show_plot:
+            plt.show()
+        else:
+            plt.close()
+
+        # Show the plot
+        plt.show()
 
     def save(self, path):
         torch.save(self.model.state_dict(), path)

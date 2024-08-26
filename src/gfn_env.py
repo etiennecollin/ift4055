@@ -19,11 +19,11 @@ class AcqEnvironment():
     def update_prev_posterior(self, gp_samples):
         self.prev_gp_samples = gp_samples
 
-    def reward(self, train_samples, gp_samples):
+    def reward(self, new_x, train_x, train_y, gp_samples):
         kl_diff = torch.tensor(0.0)
-        i = train_samples.shape[0]
+        i = train_y.shape[0]
         if self.prev_gp_samples is not None:
-            # This makes sure that the shape of the gp_samples is the same as that of the train_samples
+            # This makes sure that the shape of the gp_samples is the same as that of the train_y
             indices_1 = torch.randperm(self.max_samples)[:i]
             indices_2 = torch.randperm(self.max_samples)[:i]
             prev_gp_samples = self.prev_gp_samples[indices_1]
@@ -31,9 +31,9 @@ class AcqEnvironment():
 
             # If we are improving, KL of prev_gp_samples > gp_samples
             # i.e. kl_1 > kl_2
-            kl_1 = self.kl_loss(prev_gp_samples, train_samples)
-            kl_2 = self.kl_loss(gp_samples, train_samples)
-            kl_diff = nn.functional.logsigmoid(kl_1-kl_2)
+            kl_1 = self.kl_loss(prev_gp_samples, train_y)
+            kl_2 = self.kl_loss(gp_samples, train_y)
+            kl_diff = nn.functional.sigmoid(kl_1-kl_2)
 
         chi2_mean_normalizer = lambda x: 1 / (0.5 * np.abs(np.mean(x) - (self.pqm_num_refs-1)) + 1)
         chi2_var_normalizer = lambda x: 1 / (0.5 * np.abs(np.std(x) - np.sqrt(2*(self.pqm_num_refs-1))) + 1)
@@ -46,14 +46,17 @@ class AcqEnvironment():
 
 
         # PQMass between train and test dataset
-        chi2_2 = pqm_chi2(train_samples.cpu(), self.test_samples, num_refs=self.pqm_num_refs, re_tessellation=50)
+        chi2_2 = pqm_chi2(train_y.cpu(), self.test_samples, num_refs=self.pqm_num_refs, re_tessellation=50)
         pqmass_2a = chi2_mean_normalizer(chi2_2)
         pqmass_2b = chi2_var_normalizer(chi2_2)
         pqmass_2 = (pqmass_2a + pqmass_2b)/2
 
-        a = torch.log(torch.tensor(1 - i/self.max_samples))
-        b = torch.log(torch.tensor(pqmass_1, requires_grad=True))/10
-        c = torch.log(torch.tensor(pqmass_2, requires_grad=True))/10
-        reward = a + b + c + kl_diff
-        reward = reward.to(self.device)
+        a = torch.tensor(1 - i/self.max_samples)
+        b = torch.tensor(pqmass_1, requires_grad=True)
+        c = torch.tensor(pqmass_2, requires_grad=True)
+        d = torch.tensor(1) if new_x not in train_x[:-1] else torch.tensor(0)
+        reward = (a + b + c + kl_diff)/4
+        if new_x in train_x[:-1]:
+            reward *= 1e-4
+        reward = torch.log(reward).to(self.device)
         return reward, a, b, c, kl_diff
