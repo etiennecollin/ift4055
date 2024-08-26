@@ -29,7 +29,7 @@
 #show: doc => article(
   title: "Summer Research Internship", subtitle: "Report", abstract: abstract, authors: (
     (
-      name: "Etienne Collin", id: 20237904, affiliations: ("Université de Montréal", "CIELA", "MILA",), email: "collin.etienne.contact@gmail.com",
+      name: "Etienne Collin", id: 20237904, affiliations: ("Université de Montréal", "CIELA", "MILA",), email: "contact@etiennecollin.com",
     ),
   ), supervisors: ("Yashar Hezaveh", "Laurence Perreault Levasseur",), class: (
     name: "Projet Informatique Honor", number: "IFT4055", section: "A", semester: "Summer 2024", instructor: "Professor Louis Salvail",
@@ -785,6 +785,12 @@ used. We are confident that this project could lead to significant advancements
 in the field of AI.
 
 #pagebreak()
+= Implementation
+
+All the code for this project is available on the following GitHub repository:
+
+- #link("https://github.com/etiennecollin/ift4055")
+
 = Author's Note
 
 This project has been both a valuable and intense introduction to the fields of
