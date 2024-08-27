@@ -102,10 +102,11 @@ student taking a test, seeing the results, and then studying the material they
 did poorly on. A GFlowNet will fulfill this role.
 
 Many other candidates were considered and researched to fill the surrogate
-network role, such as Probabilistic Neural Networks, Variational Inference
-networks and GFlowNets. However, GPs were chosen for their simplicity,
-relatively inexpensive-to-sample and train nature and their ability to provide
-uncertainty estimates. This last property proves to be crucial for our problem.
+network role, such as Multi-Layer Perceptrons, Probabilistic Neural Networks,
+Variational Inference networks, Variational Autoencoders and GFlowNets. However,
+GPs were chosen for their simplicity, relatively inexpensive-to-sample and train
+nature and their ability to provide uncertainty estimates. This last property
+proves to be crucial for our problem.
 
 In particular, the GP used was based on the "High-Dimensional Bayesian
 Optimization with Sparse Axis-Aligned Subspaces" (SAASBO) paper
