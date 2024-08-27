@@ -7,7 +7,7 @@ This report for the IFT4055 class at Université de Montréal is written using [
 - [Typst](https://github.com/typst/typst)
 - My custom [typst template](https://github.com/etiennecollin/typst-templates)
   - To compile the document as is, this repository should be cloned in `~/github/` such that the path to the repository is `~/github/typst-templates/...`.
-- [Docker Compose](https://github.com/docker/compose)
+- [Docker](https://github.com/docker/cli)
   - Only to convert the mermaid diagrams from `./assets/mermaid.md` into png images.
 
 ## Usage
