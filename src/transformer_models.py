@@ -1,4 +1,9 @@
+# Taken from:
+# https://github.com/juho-lee/set_transformer
+# https://arxiv.org/abs/1810.00825
+
 from transformer_modules import *
+
 
 class DeepSet(nn.Module):
     def __init__(self, dim_input, num_outputs, dim_output, dim_hidden=128):
@@ -7,26 +12,29 @@ class DeepSet(nn.Module):
         self.num_outputs = num_outputs
         self.dim_output = dim_output
         self.enc = nn.Sequential(
-                nn.Linear(dim_input, dim_hidden),
-                nn.ReLU(),
-                nn.Linear(dim_hidden, dim_hidden),
-                nn.ReLU(),
-                nn.Linear(dim_hidden, dim_hidden),
-                nn.ReLU(),
-                nn.Linear(dim_hidden, dim_hidden))
+            nn.Linear(dim_input, dim_hidden),
+            nn.ReLU(),
+            nn.Linear(dim_hidden, dim_hidden),
+            nn.ReLU(),
+            nn.Linear(dim_hidden, dim_hidden),
+            nn.ReLU(),
+            nn.Linear(dim_hidden, dim_hidden),
+        )
         self.dec = nn.Sequential(
-                nn.Linear(dim_hidden, dim_hidden),
-                nn.ReLU(),
-                nn.Linear(dim_hidden, dim_hidden),
-                nn.ReLU(),
-                nn.Linear(dim_hidden, dim_hidden),
-                nn.ReLU(),
-                nn.Linear(dim_hidden, num_outputs*dim_output))
+            nn.Linear(dim_hidden, dim_hidden),
+            nn.ReLU(),
+            nn.Linear(dim_hidden, dim_hidden),
+            nn.ReLU(),
+            nn.Linear(dim_hidden, dim_hidden),
+            nn.ReLU(),
+            nn.Linear(dim_hidden, num_outputs * dim_output),
+        )
 
     def forward(self, x):
         x = self.enc(x).mean(-2)
         x = self.dec(x).reshape(-1, self.num_outputs, self.dim_output)
         return x.mean(1)
+
 
 class SetTransformer(nn.Module):
     def __init__(self, dim_input=1, num_outputs=1, dim_output=64, num_inds=32, dim_hidden=128, num_heads=4, ln=False):

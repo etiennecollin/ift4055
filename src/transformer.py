@@ -5,6 +5,7 @@ from transformer_models import *
 from tqdm import trange
 import matplotlib.pyplot as plt
 
+
 class SetTransformerTrainer:
     def __init__(self, dim_input, dim_hidden, dim_output, **kwargs):
         self.dim_input = dim_input
@@ -26,10 +27,14 @@ class SetTransformerTrainer:
         # Present to fix issue with dtypes in st_modules
         torch.set_default_dtype(self.dtype)
 
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model = self._create_model().to(self.device)
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=self.lr)
-        self.criterion = nn.CosineEmbeddingLoss(reduction="sum").to(device) if self.cosine_loss else nn.PairwiseDistance(p=2, eps=0).to(self.device)
+        self.criterion = (
+            nn.CosineEmbeddingLoss(reduction="sum").to(device)
+            if self.cosine_loss
+            else nn.PairwiseDistance(p=2, eps=0).to(self.device)
+        )
 
         # Scales the L2Norm between 0 and 1.
         # 1 when the L2Norm is 0
@@ -41,9 +46,11 @@ class SetTransformerTrainer:
         if self.use_deepset:
             return DeepSet(self.dim_input, self.num_outputs, self.dim_output, self.dim_hidden)
         else:
-            return SetTransformer(self.dim_input, self.num_outputs, self.dim_output, self.num_inds, self.dim_hidden, self.num_heads)
+            return SetTransformer(
+                self.dim_input, self.num_outputs, self.dim_output, self.num_inds, self.dim_hidden, self.num_heads
+            )
 
-    def gen_data(self, number_pts, permutation=True, domain=(0,100)):
+    def gen_data(self, number_pts, permutation=True, domain=(0, 100)):
         rng = np.random.default_rng()
         x = rng.uniform(domain[0], domain[1], (number_pts, self.dim_input))
 
@@ -70,7 +77,7 @@ class SetTransformerTrainer:
         for i in tbar:
             # Update learning rate for second half of training
             if i == iterations // 2:
-                self.optimizer.param_groups[0]['lr'] *= self.lr_multiplicator
+                self.optimizer.param_groups[0]["lr"] *= self.lr_multiplicator
 
             # Get a random tensor length
             rng = np.random.default_rng()
@@ -84,7 +91,7 @@ class SetTransformerTrainer:
             if self.cosine_loss:
                 a = torch.cat((x1, x2, x1, x1, x2, y1), 0)
                 b = torch.cat((y1, y2, y2, x2, y1, y2), 0)
-                c = torch.tensor([1,1,-1,-1,-1, -1], dtype=torch.int).to(self.device)
+                c = torch.tensor([1, 1, -1, -1, -1, -1], dtype=torch.int).to(self.device)
                 loss = self.criterion(a, b, c)
 
                 # For logging
@@ -119,7 +126,11 @@ class SetTransformerTrainer:
             losses.append(loss.item())
             losses_valid_perm.append(loss_valid_perm)
             losses_invalid_perm.append(loss_invalid_perm)
-            tbar.set_postfix_str("loss={:.3E}, v={:.3E}, i={:.3E}".format(np.mean(losses), np.mean(losses_valid_perm), np.mean(losses_invalid_perm)))
+            tbar.set_postfix_str(
+                "loss={:.3E}, v={:.3E}, i={:.3E}".format(
+                    np.mean(losses), np.mean(losses_valid_perm), np.mean(losses_invalid_perm)
+                )
+            )
 
         return losses, losses_valid_perm, losses_invalid_perm
 
@@ -132,7 +143,11 @@ class SetTransformerTrainer:
             valid_list = []
             invalid_list = []
             for i in range(only_valid_perms, 2):
-                tbar = trange(iterations, desc="Testing invalid permutations" if i == 0 else "Testing valid permutations", unit="it")
+                tbar = trange(
+                    iterations,
+                    desc="Testing invalid permutations" if i == 0 else "Testing valid permutations",
+                    unit="it",
+                )
                 for j in tbar:
                     # Get a random tensor length
                     points_per_tensor = rng.integers(self.tensor_length_min, self.tensor_length_max)
@@ -145,7 +160,9 @@ class SetTransformerTrainer:
 
                     # Compute distance
                     distance = l2norm(embedding_1, embedding_2).item()
-                    if ((i == 0 and distance <= perm_threshold) or (i == 1 and distance > perm_threshold)) and not no_break:
+                    if (
+                        (i == 0 and distance <= perm_threshold) or (i == 1 and distance > perm_threshold)
+                    ) and not no_break:
                         print(distance)
                         print(x1.shape, x1)
                         print(x2.shape, x2)
@@ -153,7 +170,7 @@ class SetTransformerTrainer:
                         print(embedding_2.shape, embedding_2)
                         break
 
-                    if i==0:
+                    if i == 0:
                         invalid_list.append(distance)
                     else:
                         valid_list.append(distance)
@@ -165,10 +182,19 @@ class SetTransformerTrainer:
         plt.figure(figsize=(10, 3))
 
         # Plot valid_list on a fixed y-value (e.g., y=1)
-        plt.scatter(valid_perm_distances, [0] * len(valid_perm_distances), color='g', label="Permutations", alpha=0.6, s=10)
+        plt.scatter(
+            valid_perm_distances, [0] * len(valid_perm_distances), color="g", label="Permutations", alpha=0.6, s=10
+        )
 
         # Plot invalid_list on a different fixed y-value (e.g., y=0)
-        plt.scatter(invalid_perm_distances, [0] * len(invalid_perm_distances), color='r', label="Non-Permutations", alpha=0.6, s=10)
+        plt.scatter(
+            invalid_perm_distances,
+            [0] * len(invalid_perm_distances),
+            color="r",
+            label="Non-Permutations",
+            alpha=0.6,
+            s=10,
+        )
 
         # Add title and labels
         plt.title("Embeddings of Set Transformer")
@@ -176,7 +202,7 @@ class SetTransformerTrainer:
         plt.xscale("log")
         plt.yticks([])  # Remove y-axis ticks
         plt.legend()
-        plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+        plt.grid(True, which="both", linestyle="--", linewidth=0.5)
 
         if save_path is not None:
             plt.savefig(save_path)

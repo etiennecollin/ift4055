@@ -2,6 +2,7 @@ import numpy as np
 import torch
 import matplotlib.pyplot as plt
 
+
 class DataGenerator:
     def __init__(self):
         self.rng = np.random.default_rng()
@@ -39,11 +40,10 @@ class DataGenerator:
 
         # Define the Gaussian PDF function
         def gaussian_pdf(x, mean, sigma):
-            return (1 / (np.sqrt(2 * np.pi * sigma**2))) * np.exp(-0.5 * ((x - mean) / sigma)**2)
+            return (1 / (np.sqrt(2 * np.pi * sigma**2))) * np.exp(-0.5 * ((x - mean) / sigma) ** 2)
 
         # Return the lambda function for the mixture PDF
-        return lambda x: (weight * gaussian_pdf(x, mu1, sigma1) +
-                          weight * gaussian_pdf(x, mu2, sigma2))
+        return lambda x: (weight * gaussian_pdf(x, mu1, sigma1) + weight * gaussian_pdf(x, mu2, sigma2))
 
     def plot(self, function, x_values=np.linspace(-10, 10, 1000)):
         # Compute the PDF values
@@ -51,10 +51,10 @@ class DataGenerator:
 
         # Plot the results
         plt.figure(figsize=(10, 6))
-        plt.plot(x_values, function_values, label='Gaussian Mixture PDF', color='blue')
-        plt.title('Gaussian Mixture Model PDF')
-        plt.xlabel('x')
-        plt.ylabel('PDF')
+        plt.plot(x_values, function_values, label="Gaussian Mixture PDF", color="blue")
+        plt.title("Gaussian Mixture Model PDF")
+        plt.xlabel("x")
+        plt.ylabel("PDF")
         plt.legend()
         plt.grid(True)
         plt.show()

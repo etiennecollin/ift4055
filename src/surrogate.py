@@ -8,6 +8,7 @@ from botorch.utils.transforms import normalize, unnormalize
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+
 class BayesianGPTrainer:
     def __init__(self, train_x, train_y, graph_x, **kwargs):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -18,22 +19,22 @@ class BayesianGPTrainer:
         self.graph_x = graph_x.to(self.device, self.dtype)
 
         self.x_bounds = kwargs.get("x_bounds", None)
-        self.n_posterior_samples = kwargs.get("n_posterior_samples", 1000)
+        self.n_posterior_samples = kwargs.get("n_posterior_samples", 1024)
         self.warmup_steps = kwargs.get("warmup_steps", 512)
         self.num_samples = kwargs.get("num_samples", 256)
         self.thinning = kwargs.get("thinning", 32)
         self.noise_scale = kwargs.get("noise_scale", 1e-8)
         self.jit_compile = kwargs.get("jit_compile", True)
-        self.save_plot = kwargs.get("save_plot", False)
         self.show_plot = kwargs.get("show_plot", True)
         self.disable_progbar = kwargs.get("disable_progbar", False)
 
         if self.x_bounds is not None:
-            assert type(self.x_bounds) in [tuple, list] and len(self.x_bounds)==2
-            self.x_normalizing_bounds = torch.stack([bound*torch.ones(self.train_x.shape[-1]) for bound in self.x_bounds])
+            assert type(self.x_bounds) in [tuple, list] and len(self.x_bounds) == 2
+            self.x_normalizing_bounds = torch.stack(
+                [bound * torch.ones(self.train_x.shape[-1]) for bound in self.x_bounds]
+            )
         else:
             self.x_normalizing_bounds = None
-
 
         # Create model
         self._update_model()
@@ -68,9 +69,8 @@ class BayesianGPTrainer:
             num_samples=self.num_samples,
             thinning=self.thinning,
             disable_progbar=self.disable_progbar,
-            jit_compile=self.jit_compile
+            jit_compile=self.jit_compile,
         )
-
 
     def get_posterior(self):
         with torch.no_grad():
@@ -105,22 +105,21 @@ class BayesianGPTrainer:
         # Plot the results
         plt.figure(figsize=(12, 6))
 
-        plt.plot(true_x.cpu(), true_y.cpu(), linewidth=2, label="True Function", color="green")    
+        plt.plot(true_x.cpu(), true_y.cpu(), linewidth=2, label="True Function", color="green")
         plt.scatter(self.train_x.cpu(), self.train_y.cpu(), label="Training Data", color="black")
 
-        plt.fill_between(true_x.squeeze().cpu(), mean_lower.cpu(), mean_upper.cpu(), alpha=0.2, label="$2\sigma$ Confidence Interval")
+        plt.fill_between(
+            true_x.squeeze().cpu(), mean_lower.cpu(), mean_upper.cpu(), alpha=0.2, label="$2\sigma$ Confidence Interval"
+        )
         plt.plot(true_x.cpu(), mean_predictions.cpu(), linewidth=2, label="Mean Prediction")
 
         plt.title("SAASBO Gaussian Process")
         plt.xlabel("x")
         plt.ylabel("y")
-        plt.ylim(-0.1, 0.5)
 
         plt.tight_layout()
         plt.legend()
-        if self.save_plot:
-            if path is None:
-                raise ValueError("If `save` is `True`, `path` must be specified including the filename of the saved plot.")
+        if path is not None:
             plt.savefig(path)
         if self.show_plot:
             plt.show()

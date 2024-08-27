@@ -1,10 +1,11 @@
-# Greatly inspired from:
+# Inspired from:
 # https://github.com/GFNOrg/torchgfn/blob/master/tutorials/notebooks/intro_gfn_continuous_line_simple.ipynb
 # https://arxiv.org/abs/2305.14594
 
 import torch
 import numpy as np
 from tqdm import trange
+
 
 class AcquisitionTrainer:
     def __init__(self, **kwargs):
@@ -23,7 +24,7 @@ class AcquisitionTrainer:
         self.inference_batch_size = kwargs.get("inference_batch_size", 10_000)
         self.trajectory_length = kwargs.get("trajectory_length", 5)
 
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.forward_model, self.backward_model, self.logZ, self.optimizer = self._create_models()
 
@@ -33,7 +34,7 @@ class AcquisitionTrainer:
             torch.nn.ELU(),
             torch.nn.Linear(self.hid_dim, self.hid_dim),
             torch.nn.ELU(),
-            torch.nn.Linear(self.hid_dim, self.state_dim)
+            torch.nn.Linear(self.hid_dim, self.state_dim),
         ).to(self.device)
 
         backward_model = torch.nn.Sequential(
@@ -41,16 +42,16 @@ class AcquisitionTrainer:
             torch.nn.ELU(),
             torch.nn.Linear(self.hid_dim, self.hid_dim),
             torch.nn.ELU(),
-            torch.nn.Linear(self.hid_dim, self.state_dim)
+            torch.nn.Linear(self.hid_dim, self.state_dim),
         ).to(self.device)
 
         logZ = torch.nn.Parameter(torch.tensor(0.0, device=self.device))
 
         optimizer = torch.optim.Adam(
             [
-                {'params': forward_model.parameters(), 'lr': self.lr_model},
-                {'params': backward_model.parameters(), 'lr': self.lr_model},
-                {'params': [logZ], 'lr': self.lr_logz},
+                {"params": forward_model.parameters(), "lr": self.lr_model},
+                {"params": backward_model.parameters(), "lr": self.lr_model},
+                {"params": [logZ], "lr": self.lr_logz},
             ]
         )
 
@@ -83,7 +84,9 @@ class AcquisitionTrainer:
 
     def inference(self):
         with torch.no_grad():
-            trajectory = torch.zeros((self.inference_batch_size, self.trajectory_length + 1, self.state_dim), device=self.device)
+            trajectory = torch.zeros(
+                (self.inference_batch_size, self.trajectory_length + 1, self.state_dim), device=self.device
+            )
             trajectory[:, 0, 0] = self.init_state_value
 
             x = self._initialize_state(self.inference_batch_size)
@@ -98,10 +101,10 @@ class AcquisitionTrainer:
 
         return trajectory, trajectory[:, -1, 0]
 
-    def train(self, surrogate, oracle, graph_x, graph_y, eval_i, problem_i):
+    def train(self, surrogate, oracle, graph_x, graph_y, plot_prefix=None):
         losses = []
         tbar = trange(self.training_steps)
-        exploration_schedule = np.linspace(self.init_explortation_noise, 0,  self.training_steps)
+        exploration_schedule = np.linspace(self.init_explortation_noise, 0, self.training_steps)
 
         for it in tbar:
             x = self._initialize_state(self.batch_size)
@@ -127,7 +130,6 @@ class AcquisitionTrainer:
                 action = trajectory[:, t, 0] - trajectory[:, t - 1, 0]
                 logPB += policy_dist.log_prob(action)
 
-
             # Get potential new point
             new_x = trajectory[:, -1, 0].mean(dim=0).cpu()
             new_y = oracle(new_x)
@@ -139,8 +141,11 @@ class AcquisitionTrainer:
             # Get the posterior
             posterior = surrogate.get_posterior()
             gp_samples = surrogate.get_samples(posterior, mean=True)
-            if it%20 == 0:
-                surrogate.plot_gp(graph_x, graph_y, posterior, path=f"./plots/gif_gfn_3/gfn_{problem_i:02d}_{eval_i:04d}_{it:04d}.png")
+            if it % 20 == 0:
+                if plot_prefix is None:
+                    surrogate.plot_gp(graph_x, graph_y, posterior)
+                else:
+                    surrogate.plot_gp(graph_x, graph_y, posterior, path=f"{plot_prefix}_{it:04d}.png")
 
             reward, a, b, c, kl_diff = self.env.reward(new_x, surrogate.train_x, surrogate.train_y, gp_samples)
             loss = (self.logZ + logPF - logPB - reward).pow(2).mean()
