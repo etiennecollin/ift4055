@@ -6,7 +6,7 @@
   resolution, driven by technological advancements, presents a formidable
   challenge for probabilistic data analysis. Traditional computational methods
   become impractical as some simulations, for example in cosmology, require an
-  exorbitant 100 million CPU hours to evaluate and sample. Because of this,
+  exorbitant 100 million CPU hours to evaluate and sample from. Because of this,
   scientists turn to modeling accurate approximations of their problems. But this
   creates a "chicken or egg" dilemma: training models to approximate these
   computationally intensive oracles necessitates prior evaluations of the oracles
@@ -274,6 +274,7 @@ relatively easy to implement and produces good results.
     learn the leftmost mode of the gaussian mixture.],
 ) <fig-gfn_simple>
 
+#pagebreak()
 == Designing the Reward Function
 
 The reward function is one of the most important parts of the acquisition model.
@@ -470,7 +471,7 @@ the state of the GFlowNet, we need to use a Set Transformer to process the input
 and use its output embeddings as the state. Set Transformers are a type of
 transformer that is particularly useful to process inputs when the order of the
 data does not matter, as is the case with our list of points and the output of
-the GP. Using a set transformer, it is possible to make sure that every
+the GP. By using a set transformer, it is possible to make sure that every
 permutation of a list of numbers is treated the same way.
 
 We use a model architecture based on transformers which use an encoder and a
@@ -564,7 +565,7 @@ transformer to train the GP.
 Following is a diagram of the training process:
 
 #figure(
-  image("assets/architecture.svg", width: 100%), caption: [Architecture of the project. The dotted lines and the bloc inside the GFlowNet
+  image("assets/mermaid.md-1.png", width: 100%), caption: [Architecture of the project. The dotted lines and the bloc inside the GFlowNet
     represent a path only taken when training it. When using the trained GFN on the
     hard-to-sample problem, the solid line path is used],
 ) <fig-architecture>
@@ -734,19 +735,22 @@ new data point and train the GP with that new point. This iterative procedure is
 computationally intensive. However, it is worth noting that while this approach
 requires significant initial investment in terms of computational resources, it
 has the potential to reduce costs in the long term by spreading these expenses
-across future evaluations, making it a more efficient alternative over time.
+across future evaluations, making it a more efficient alternative over time. As
+an example, once trained, getting a prediction and its uncertainty out of the GP
+only takes a few seconds. This is much faster than sampling oracles such as the
+one mentioned in the abstract, which take around 100 million CPU hours to
+produce a single sample.
+
 Future works should focus on optimizing the training process to reduce
 computational overhead and determine a threshold at which our proposed approach
-becomes more efficient than traditional methods. Given more time, one of the
-first things to do would be to tweak the GFN and let it train on a few hundred
-examples of the same class of problems.
-
-Moreover, GFNs are still in their infancy and not as well understood as other
-types of models. As time passes and they become more common, researched and
-documented, it is possible that new training objectives, or entirely new
-training techniques, will be developed that could improve the performance of the
-model. This is an exciting prospect, as it could lead to even more efficient and
-effective models.
+becomes more efficient than traditional methods. Given more time, the first
+things to do would be to tweak the GFN and let it train on a few hundred
+examples of the same class as the tackled problems. Moreover, GFNs are still in
+their infancy and not as well understood as other types of models. As time
+passes and they become more common, researched and documented, it is possible
+that new training objectives, or entirely new training techniques, will be
+developed that could improve the performance of the model. This is an exciting
+prospect, as it could lead to even more efficient and effective models.
 
 Overall, our methodology demonstrates significant potential in the field of
 probabilistic data analysis by combining a GP surrogate model with a novel

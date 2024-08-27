@@ -1,0 +1,9 @@
+---
+services:
+  mermaid:
+    image: minlag/mermaid-cli
+    container_name: mermaid
+    volumes:
+      - ./assets:/data
+    command: --backgroundColor transparent -w 8192 -i "/data/mermaid.md" --outputFormat "png"
+    restart: no
