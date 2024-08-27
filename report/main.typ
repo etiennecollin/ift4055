@@ -817,7 +817,7 @@ different from other fields. Overcoming these challenges taught me to adjust my
 expectations and develop resilience, ultimately contributing to my growth as a
 researcher.
 
-= Contributions
+= Acknowledgements
 
 Thank you to Yashar Hezaveh for his guidance and support throughout this
 project. His experience, insights and encouragement have been invaluable in
